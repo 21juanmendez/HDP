@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
+#AGREGADO POR EL VIDEO PARA DESPLEGAR
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns  #  <<==========
+#HASTA AQUI
 
 from django.urls import include  #  <<==========
 from administrador import views   #  <<==========
@@ -26,4 +29,4 @@ urlpatterns = [
     path('', include('administrador.urls')),  #  <<==========
 ]
 
-urlpatterns += staticfiles_urlpatterns()  #  <<==========
+urlpatterns += staticfiles_urlpatterns()  #  <<========== #AGREGADO POR EL VIDEO PARA DESPLEGAR
