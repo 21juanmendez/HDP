@@ -1,0 +1,470 @@
+{% extends 'index_master2.html' %}
+{% block content %}
+<!-- page content -->
+<div class="right_col" role="main">
+  <!-- top tiles -->
+  <div class="row" style="display: inline-block;">
+    <div class="tile_count">
+      <div class="col-md-2 col-sm-4  tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Total Estudiantes</span>
+        <div class="count">{{total}}</div>
+        <span class="count_bottom"><i class="green"> Discapacitados</i></span>
+      </div>
+      <div class="col-md-2 col-sm-4  tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Estudiantes hombres</span>
+        <div class="count">{{masculino}}</div>
+        <span class="count_bottom"><i class="green">Masculino</i></span>
+      </div>
+      <div class="col-md-2 col-sm-4  tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Estudiantes mujeres</span>
+        <div class="count">{{femenino}}</div>
+        <span class="count_bottom"><i class="green">Femenino</i></span>
+      </div>
+      <div class="col-md-6 col-sm-8  tile_stats_count">
+        <span class="count_top"><i class="fa fa-clock-o"></i> Última actualización</span>
+        <h3>{{ fecha|date:"d \d\e F \d\e Y" }}, {{ fecha|time:"g:i A" }}</h3>
+      </div>
+    </div>
+  </div>
+  <!-- /top tiles -->
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="dashboard_graph">
+        <div class="row x_title">
+          <div class="col-md-6">
+            <h3>Estudiantes discapacitados</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <section style="display: inline-block; vertical-align: middle; width: 98%;">
+              <canvas id="myChart"></canvas>
+            </section>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 bg-white">
+            <div class="x_title">
+              <h2>Porcentaje de estudiantes<br>por discapacidad</h2>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+              {% for elemento in matriz %}
+              <div>
+                <p>{{elemento.0}}</p>
+                <div class="progress-container d-flex align-items-center">
+                  <div class="progress progress_sm w-100">
+                    <div class="progress-bar bg-green" role="progressbar" style="width: {{ elemento.1 }}%;"
+                      aria-valuenow="{{ elemento.1 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="progress-value ml-2">
+                    <h6>{{ elemento.1 }}%</h6>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <select id="opcion" class="custom-select" onchange="mostrarBloque()">
+    {% for universidad in listaUniversidad %}
+    <option value="{{ forloop.counter }}">{{universidad}}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <br>
+  {% for universidad in listaUniversidad %}
+  <div id="bloque{{ forloop.counter }}" style="display: none;">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 ">
+        <div class="x_panel tile fixed_height_320 overflow_hidden">
+          <div class="x_title">
+            <h2>Estudiantes femeninos</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                    class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <table class="" style="width:100%">
+              <tr>
+                <th style="width:70%;">
+                  <p>Gráfico</p>
+                </th>
+                <th>
+                  <div class="col-lg-4 col-md-4 col-sm-7 ">
+                    <p class="">Discapacidades</p>
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">
+                  <canvas id="femenino-{{ forloop.counter }}" height="140" width="140" style="margin: 15px 10px 10px 0; width: 80%; height: auto;"></canvas>
+                </td>
+                <td>
+                  <table class="tile_info">
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(255, 99, 132, 0.7);"></i>Ceguera </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(54, 162, 235, 0.7);"></i>Sordera </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(255, 206, 86, 0.7);"></i>Amputaciones </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(75, 192, 192, 0.7);"></i>Deambulacion </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(153, 102, 255, 0.7);"></i>Silla de ruedas </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-4 col-sm-4 ">
+        <div class="x_panel tile fixed_height_320 overflow_hidden">
+          <div class="x_title">
+            <h2>Estudiantes masculinos</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                    class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <table class="" style="width:100%">
+              <tr>
+                <th style="width:70%;">
+                  <p>Gráfico</p>
+                </th>
+                <th>
+                  <div class="col-lg-4 col-md-4 col-sm-7 ">
+                    <p class="">Discapacidades</p>
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">
+                  <canvas id="masculino-{{ forloop.counter }}" height="140" width="140" style="margin: 15px 10px 10px 0; width: 80%; height: auto;"></canvas>
+                </td>
+                <td>
+                  <table class="tile_info">
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(255, 99, 132, 0.7);"></i>Ceguera </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(54, 162, 235, 0.7);"></i>Sordera </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(255, 206, 86, 0.7);"></i>Amputaciones </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(75, 192, 192, 0.7);"></i>Deambulacion </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><i class="fa fa-square" style="color: rgba(153, 102, 255, 0.7);"></i>Silla de ruedas </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-4 col-sm-4 ">
+        <div class="x_panel tile fixed_height_320">
+          <div class="x_title">
+            <h2>Quick Settings</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                    class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="dashboard-widget-content">
+              <ul class="quick-list">
+                {% for discap in discp%}
+                <li><i class="fa fa-calendar-o"></i><a href="#">{{discap}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+  
+              <div class="sidebar-widget">
+                <h4>Profile Completion</h4>
+                <canvas width="150" height="80" id="chart_gauge_01" class=""
+                  style="width: 160px; height: 100px;"></canvas>
+                <div class="goal-wrapper">
+                  <span id="gauge-text" class="gauge-value pull-left">0</span>
+                  <span class="gauge-value pull-left">%</span>
+                  <span id="goal-text" class="goal-value pull-right">100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+  <br />
+  <br />
+
+<script>
+  // Obtener el contexto del lienzo
+  var ctx = document.getElementById('myChart').getContext('2d');
+  // Datos de ejemplo para la gráfica
+  var data = {
+    labels: [{{ universidades| safe }}],
+  datasets: [{
+    label: 'Cantidad de estudiantes',
+    data: [{{ cantidad| safe }}],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.7)',
+      'rgba(54, 162, 235, 0.7)',
+      'rgba(255, 206, 86, 0.7)',
+      'rgba(75, 192, 192, 0.7)',
+      'rgba(153, 102, 255, 0.7)',
+      'rgba(255, 159, 64, 0.7)',
+      'rgba(255, 0, 0, 0.7)',
+      'rgba(0, 255, 0, 0.7)',
+      'rgba(0, 0, 255, 0.7)',
+      'rgba(128, 128, 128, 0.7)',
+      'rgba(0, 128, 128, 0.7)',
+      'rgba(128, 0, 128, 0.7)',
+    ],
+      borderColor: [
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(255, 206, 86, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(153, 102, 255, 0.7)',
+        'rgba(255, 159, 64, 0.7)',
+        'rgba(255, 0, 0, 0.7)',
+        'rgba(0, 255, 0, 0.7)',
+        'rgba(0, 0, 255, 0.7)',
+        'rgba(128, 128, 128, 0.7)',
+        'rgba(0, 128, 128, 0.7)',
+        'rgba(128, 0, 128, 0.7)',
+      ],
+        borderWidth: 1
+              }]
+          };
+
+  // Opciones de la gráfica
+  var options = {
+    animation: {
+      duration: 4000,
+    },
+    responsive: true,
+    scales: {
+      x: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  // Crear la gráfica
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+  });
+</script>
+{% for femenino in listaF %}
+<script>
+  var ctx = document.getElementById("femenino-{{ forloop.counter }}").getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [{{ discapacidades| safe }}],
+    datasets: [{
+      label: 'Cantidad de estudiantes',
+      data: [{{ femenino| safe }}],
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.7)',
+      'rgba(54, 162, 235, 0.7)',
+      'rgba(255, 206, 86, 0.7)',
+      'rgba(75, 192, 192, 0.7)',
+      'rgba(153, 102, 255, 0.7)',
+    ],
+      borderColor: [
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(255, 206, 86, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(153, 102, 255, 0.7)',
+      ],
+        borderWidth: 1
+      }]
+    },
+  options: {
+    responsive: false,
+    maintainAspectRatio: false,
+    legend: {
+      display: false // <-- Ocultar leyendas
+    },
+    tooltips: {
+      enabled: true,
+      mode: "index",
+      intersect: false
+    }
+  }
+  });
+</script>
+{% endfor %}
+{% for masculino in listaM %}
+<script>
+  var ctx = document.getElementById("masculino-{{ forloop.counter }}").getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [{{ discapacidades| safe }}],
+    datasets: [{
+      label: 'Cantidad de estudiantes',
+      data: [{{ masculino| safe }}],
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.7)',
+      'rgba(54, 162, 235, 0.7)',
+      'rgba(255, 206, 86, 0.7)',
+      'rgba(75, 192, 192, 0.7)',
+      'rgba(153, 102, 255, 0.7)',
+    ],
+      borderColor: [
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(255, 206, 86, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(153, 102, 255, 0.7)',
+      ],
+        borderWidth: 1
+      }]
+    },
+  options: {
+    responsive: false,
+    maintainAspectRatio: false,
+    legend: {
+      display: false // <-- Ocultar leyendas
+    },
+    tooltips: {
+      enabled: true,
+      mode: "index",
+      intersect: false
+    },
+    hover: {
+      mode: 'nearest',
+      intersect: true
+    }
+  }
+  });
+</script>
+{% endfor %}
+<script>
+  function mostrarBloque() {
+    var opcion = document.getElementById("opcion").value;
+
+    // Ocultar todos los bloques
+    document.getElementById("bloque1").style.display = "none";
+    document.getElementById("bloque2").style.display = "none";
+    document.getElementById("bloque3").style.display = "none";
+    document.getElementById("bloque4").style.display = "none";
+    document.getElementById("bloque5").style.display = "none";
+    document.getElementById("bloque6").style.display = "none";
+    document.getElementById("bloque7").style.display = "none";
+    document.getElementById("bloque8").style.display = "none";
+    document.getElementById("bloque9").style.display = "none";
+    document.getElementById("bloque10").style.display = "none";
+    document.getElementById("bloque11").style.display = "none";
+    document.getElementById("bloque12").style.display = "none";
+    // Mostrar el bloque seleccionado
+    if (opcion === "1") {
+      document.getElementById("bloque1").style.display = "block";
+    } else if (opcion === "2") {
+      document.getElementById("bloque2").style.display = "block";
+    } else if (opcion === "3") {
+      document.getElementById("bloque3").style.display = "block";
+    } else if (opcion === "4") {
+      document.getElementById("bloque4").style.display = "block";
+    } else if (opcion === "5") {
+      document.getElementById("bloque5").style.display = "block";
+    } else if (opcion === "6") {
+      document.getElementById("bloque6").style.display = "block";
+    } else if (opcion === "7") {
+      document.getElementById("bloque7").style.display = "block";
+    } else if (opcion === "8") {
+      document.getElementById("bloque8").style.display = "block";
+    } else if (opcion === "9") {
+      document.getElementById("bloque9").style.display = "block";
+    } else if (opcion === "10") {
+      document.getElementById("bloque10").style.display = "block";
+    } else if (opcion === "11") {
+      document.getElementById("bloque11").style.display = "block";
+    } else if (opcion === "12") {
+      document.getElementById("bloque12").style.display = "block";
+    }
+  }
+</script>
+<!-- /page content -->
+{% endblock %}

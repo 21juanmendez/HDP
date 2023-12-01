@@ -1,0 +1,100 @@
+{% extends '../index_master.html' %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <h1>Agregar Registro</h1>
+    <form action="agregar" method="POST">
+    {% csrf_token %}
+        <div class="form-group row">
+          <label for="discapacidad" class="col-4 col-form-label">Discapacidad</label> 
+          <div class="col-8">
+              <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-wheelchair-alt"></i>
+                </div>
+              <select id="discapacidad" name="discapacidad" required="required" class="custom-select">
+                <option selected></option>
+                <option value="Ceguera">Ceguera</option>
+                <option value="Sordera">Sordera</option>
+                <option value="Amputaciones">Amputaciones</option>
+                <option value="Deambulacion">Deambulacion</option>
+                <option value="Silla de ruedas">Silla de ruedas</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="universidad" class="col-4 col-form-label">Universidad</label> 
+          <div class="col-8">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-university"></i>
+              </div>
+              <select id="universidad" name="universidad" required="required" class="custom-select">
+              <option selected></option>
+              <option value="Universidad de El Salvador">Universidad de El Salvador</option>
+              <option value="Universidad Don Bosco">Universidad Don Bosco</option>
+              <option value="Universidad Cristiana Asambleas de Dios">Universidad Cristiana Asambleas de Dios</option>
+              <option value="Universidad Isaac Newton">Universidad Isaac Newton</option>
+              <option value="Universidad Autonoma de Santa Ana">Universidad Autonoma de Santa Ana</option>
+              <option value="Universidad Catolica de Occidente">Universidad Catolica de Occidente</option>
+              <option value="Universidad Dr.Andres Bello">Universidad Dr.Andres Bello</option>
+              <option value="Universidad Francisco Gavidia">Universidad Francisco Gavidia</option>
+              <option value="Universidad Tecnologica">Universidad Tecnologica</option>
+              <option value="Universidad Pedagogica de El Salvador">Universidad Pedagogica de El Salvador</option>
+              <option value="Universidad de Oriente">Universidad de Oriente</option>
+              <option value="Universidad Capital Gerardo Barrios">Universidad Capital Gerardo Barrios</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="sexo" class="col-4 col-form-label">Sexo</label> 
+          <div class="col-8">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-intersex"></i>
+              </div>
+              <select id="sexo" name="sexo" required="required" class="custom-select">
+              <option selected></option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="cantidad" class="col-4 col-form-label">Cantidad</label>
+          <div class="col-8">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="fa fa-sort-numeric-asc"></i>
+                </div>
+              </div>
+              <input id="cantidad" name="cantidad" type="number" required="required" class="form-control" oninput="validarCantidad(this)">
+            </div>
+          </div>
+        </div>
+        
+        <script>
+          function validarCantidad(input) {
+            if (input.value < 0) {
+              input.setCustomValidity('La cantidad no puede ser negativa');
+            } else {
+              input.setCustomValidity('');
+            }
+          }
+        </script>
+
+        <div class="form-group row">
+          <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary"><i class="fa fa-user-plus"></i>  Agregar Registro</button>
+          </div>
+        </div>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends '../index_master.html' %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <h1>Actualizar Registro</h1>
+    <form action="" method="POST">
+    {% csrf_token %}
+        <div class="form-group row">
+            <label for="nombre" class="col-4 col-form-label">Id Registro</label>
+            <div class="col-8">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <select id="id" name="id" class="form-control">
+                        {% for r in registros %}
+                            <option value="{{r.id}}" {% if r.id == registro.id %} selected {% endif %}>{{ r.id }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="discapacidad" class="col-4 col-form-label">Discapacidad</label> 
+              <div class="col-8">
+                  <div class="input-group">
+                      <div class="input-group-addon">
+                          <i class="fa fa-wheelchair-alt"></i>
+                      </div>
+                      <select id="discapacidad" name="discapacidad" class="form-control">
+                        {%for r in registros%}
+                            <option value="{{r.discapacidad}}" {% if r.discapacidad == registro.discapacidad %} selected {% endif %}>{{r.discapacidad}}</option>
+                        {%endfor%}
+                      </select>
+                  </div>
+              </div>
+          </div>
+
+        <div class="form-group row">
+          <label for="universidad" class="col-4 col-form-label">Universidad</label> 
+          <div class="col-8">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-university"></i>
+                    </div>
+                    <select id="universidad" name="universidad" required="required" class="form-control">
+                    {%for r in registros%}
+                    <option value="{{r.universidad}}" {% if r.universidad == registro.universidad %} selected {% endif %}>{{r.universidad}}</option>
+                    {%endfor%}
+                    </select>
+                </div>  
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="sexo" class="col-4 col-form-label">Sexo</label> 
+          <div class="col-8">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-intersex"></i>
+                    </div>
+                    <select id="sexo" name="sexo" type="text" required="required" class="form-control">
+                    {%for r in registros%}
+                    <option value="{{r.sexo}}" {% if r.sexo == registro.sexo %} selected {% endif %}>{{r.sexo}}</option>
+                    {%endfor%}
+                    </select>
+                </div>  
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <label for="cantidad" class="col-4 col-form-label">Cantidad</label>
+            <div class="col-8">
+              <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-sort-numeric-asc"></i>
+                </div>
+                <input id="cantidad" name="cantidad" type="number" required="required" class="form-control" oninput="validarCantidad(this)" value="{{registro.cantidad}}">
+              </div>
+            </div>
+          </div>
+          
+          <script>
+            function validarCantidad(input) {
+              if (input.value < 0) {
+                input.setCustomValidity('La cantidad no puede ser negativa');
+              } else {
+                input.setCustomValidity('');
+              }
+            }
+          </script>
+
+        <div class="form-group row">
+          <div class="offset-4 col-8">
+            <button name="back" class="btn btn-primary" onclick="history.back(); return false"><i class="fa fa-angle-double-left"></i>Volver</button>
+            <button name="submit" type="submit" class="btn btn-warning"><i class="fa fa-refresh"></i>Actualizar Registro</button>
+          </div>
+        </div>
+      </form>
+</div>
+{% endblock %}
