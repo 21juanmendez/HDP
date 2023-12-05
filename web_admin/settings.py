@@ -78,8 +78,19 @@ WSGI_APPLICATION = 'web_admin.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 #AGREGADO POR EL VIDEO PARA DESPLEGAR
-DATABASES = {
+"""DATABASES = {
     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}"""
+
+DATABASES = {
+   'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'registros',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT':'3306'
+   }
 }
 
 # Password validation
